@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block Content %}
+    <h1>Series</h1>
+    <a href="/Series/Create">New Series</a>
+    <ul>
+        {% for series in seriess %}
+            <li><a href="/Series/Update/{{ series.id|e }}">{{ series.name|e }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

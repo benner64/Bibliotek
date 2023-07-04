@@ -1,0 +1,8 @@
+{% extends "base.html.twig" %}
+
+{% block Content %}
+    {{ form(form) }}
+    {% if delete %}
+        <a/ href="/Genre/Delete/{{genre.id}}" >Delete</a>
+    {% endif %}
+{% endblock %}

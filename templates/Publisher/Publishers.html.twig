@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block Content %}
+    <h1>Publishers</h1>
+    <a href="/Publisher/Create">New Publisher</a>
+    <ul>
+        {% for publisher in publishers %}
+            <li><a href="/Publisher/Update/{{ publisher.id|e }}">{{ publisher.name|e }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

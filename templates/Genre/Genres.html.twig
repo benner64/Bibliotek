@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block Content %}
+    <h1>Genres</h1>
+    <a href="/Genre/Create">New Genre</a>
+    <ul>
+        {% for genre in genres %}
+            <li><a href="/Genre/Update/{{ genre.id|e }}">{{ genre.name|e }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

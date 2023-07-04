@@ -1,0 +1,29 @@
+{% extends "base.html.twig" %}
+
+{% block Content %}
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Books</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <a href="/Book/Create" class="btn btn-success">New Book</a>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for book in books %}
+            <div class="col-3 text-center px-3 mb-4">
+                <a href="/Book/Update/{{ book.id|e }}">
+                    <div class="h-100 bg-light shadow d-flex flex-column p-1">
+                        {{ book.name|e }}
+                        <img class="mx-auto img-fluid img-thumbnail" src="{{ asset('uploads/covers/' ~ book.CoverImageFile)|e }}" width=200>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

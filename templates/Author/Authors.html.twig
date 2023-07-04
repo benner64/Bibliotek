@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block Content %}
+    <h1>Authors</h1>
+    <a href="/Author/Create">New Author</a>
+    <ul>
+        {% for author in authors %}
+            <li><a href="/Author/Update/{{ author.id|e }}">{{ author.name|e }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

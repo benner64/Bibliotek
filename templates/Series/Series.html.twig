@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block Content %}
+    {{ form(form) }}
+
+    {% if books is not empty %}
+        <ul>
+            {% for book in books %}
+                <li><a href="/Book/{{book.id}}">{{book.name}}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if delete %}
+        <a/ href="/Series/Delete/{{series.id}}" >Delete</a>
+    {% endif %}
+{% endblock %}
