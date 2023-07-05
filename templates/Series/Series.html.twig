@@ -1,17 +1,32 @@
 {% extends "base.html.twig" %}
 
 {% block Content %}
-    {{ form(form) }}
 
-    {% if books is not empty %}
-        <ul>
-            {% for book in books %}
-                <li><a href="/Book/{{book.id}}">{{book.name}}</a></li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <div class="row">
+        <div class="col-12">
+            <h1>{{ delete ? "Update" : "New" }} Series</h1>
+        </div>
+    </div>
 
-    {% if delete %}
-        <a/ href="/Series/Delete/{{series.id}}" >Delete</a>
-    {% endif %}
+    <div class="row">
+        <div class="col-4">
+            {#% if book is defined %}
+                <img src="{{ asset('uploads/covers/' ~ book.CoverImageFile) }}" width=200 class="img-fluid">
+            {% endif %#}
+        </div>
+        <div class="col-4">
+            {{ form(form) }}
+
+            <ul>
+                {% for book in books %}
+                    <li><a href="/Book/Update/{{book.id}}">{{book.name}}</a></li>
+                {% endfor %}
+            </ul>
+
+            {% if delete %}
+                <a/ href="/Series/Delete/{{series.id}}" class="btn btn-danger" >Delete</a>
+            {% endif %}
+        </div>
+    </div>
+    
 {% endblock %}

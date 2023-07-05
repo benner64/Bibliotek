@@ -43,7 +43,7 @@ class SeriesController extends AbstractController
     public function CreateSeries(EntityManagerInterface $entityManager, Request $request):Response
     {
         $series = new Series();
-        $form = $this->createForm(SeriesType::class, $series);
+        $form = $this->createForm(SeriesType::class, $series, ['CreateOrUpdate' => true]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -77,12 +77,12 @@ class SeriesController extends AbstractController
         ]);
     }
 
-    #[Route('/Series/Delete/{id}', name: 'SeriesDelete')]
+    #[Route('/Delete/{id}', name: 'SeriesDelete')]
     public function DeleteSeriess(EntityManagerInterface $entityManager, Series $series, Request $request):Response
     {
         $form = $this->createFormBuilder($series)
-        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()"]])
-        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'MyClass']])
+        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()", 'class' => 'btn-warning']])
+        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
         ->getForm();
 
         $form->handleRequest($request);
@@ -95,9 +95,10 @@ class SeriesController extends AbstractController
             return $this->redirectToRoute("SeriesRead"); //It's the name of the route, not the web path
         }
 
-        return $this->render('Series/Delete.html.twig', [
+        return $this->render('Delete.html.twig', [
             'series' => $series,
-            "form" => $form
+            "form" => $form,
+            'type' => 'series'
         ]);
     }
 }

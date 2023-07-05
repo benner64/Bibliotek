@@ -19,7 +19,7 @@ class PublisherController extends AbstractController
         $form = $this->createFormBuilder($publisher)
         ->add('Name', TextType::class)
         ->add('Link', TextType::class, ["required" => false])
-        ->add('save', SubmitType::class, ['label' => 'Update Publisher', 'attr' => ['class' => 'MyClass']])
+        ->add('save', SubmitType::class, ['label' => 'Update Publisher', 'attr' => ['class' => 'btn-success']])
         ->getForm();
 
         $form->handleRequest($request);
@@ -50,7 +50,7 @@ class PublisherController extends AbstractController
         $form = $this->createFormBuilder($publisher)
         ->add('Name', TextType::class)
         ->add('Link', TextType::class, ["required" => false])
-        ->add('save', SubmitType::class, ['label' => 'Update Publisher', 'attr' => ['class' => 'MyClass']])
+        ->add('save', SubmitType::class, ['label' => 'Update Publisher', 'attr' => ['class' => 'btn-success']])
         ->getForm();
 
         $form->handleRequest($request);
@@ -88,8 +88,8 @@ class PublisherController extends AbstractController
     public function DeletePublishers(EntityManagerInterface $entityManager, Publisher $publisher, Request $request):Response
     {
         $form = $this->createFormBuilder($publisher)
-        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()"]])
-        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'MyClass']])
+        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()", 'class' => 'btn-warning']])
+        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
         ->getForm();
 
         $form->handleRequest($request);
@@ -102,9 +102,10 @@ class PublisherController extends AbstractController
             return $this->redirectToRoute("PublisherRead"); //It's the name of the route, not the web path
         }
 
-        return $this->render('Publisher/Delete.html.twig', [
+        return $this->render('Delete.html.twig', [
             'publisher' => $publisher,
-            "form" => $form
+            "form" => $form,
+            'type' => 'publisher'
         ]);
     }
 }

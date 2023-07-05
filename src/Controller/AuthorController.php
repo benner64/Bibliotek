@@ -50,10 +50,8 @@ class AuthorController extends AbstractController
         $form = $this->createFormBuilder($author)
         ->add('name', TextType::class)
         ->add('last_name', TextType::class)
-        ->add('save', SubmitType::class, ['label' => 'Create Author', 'attr' => ['class' => 'MyClass']])
+        ->add('save', SubmitType::class, ['label' => 'Create Author', 'attr' => ['class' => 'btn-success']])
         ->getForm();
-
-        //$form = $this->createForm(AuthorType::class, $author);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -90,8 +88,8 @@ class AuthorController extends AbstractController
     public function DeleteAuthors(EntityManagerInterface $entityManager, Author $author, Request $request):Response
     {
         $form = $this->createFormBuilder($author)
-        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()"]])
-        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'MyClass']])
+        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()", 'class' => 'btn-warning']])
+        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
         ->getForm();
 
         $form->handleRequest($request);
@@ -104,9 +102,10 @@ class AuthorController extends AbstractController
             return $this->redirectToRoute("AuthorRead"); //It's the name of the route, not the web path
         }
 
-        return $this->render('Author/Delete.html.twig', [
+        return $this->render('Delete.html.twig', [
             'author' => $author,
-            "form" => $form
+            "form" => $form,
+            'type' => 'author'
         ]);
     }
 }

@@ -78,6 +78,29 @@ class BookController extends AbstractController
             // but, the original `$task` variable has also been updated
             $book = $form->getData();
 
+            $cover = $form->get("coverImageFile")->getData();
+
+            if ($cover) {
+                $originalFilename = pathinfo($cover->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$cover->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $cover->move(
+                        $this->getParameter('covers_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                // updates the 'covername' property to store the PDF file name
+                // instead of its contents
+                $book->setCoverImageFile($newFilename);
+            }
+
             // ... perform some action, such as saving the task to the database
             $entityManager->persist($book);
             $entityManager->flush();
@@ -106,8 +129,8 @@ class BookController extends AbstractController
     public function DeleteBooks(EntityManagerInterface $entityManager, Book $book, Request $request):Response
     {
         $form = $this->createFormBuilder($book)
-        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()"]])
-        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'MyClass']])
+        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()", 'class' => 'btn-warning']])
+        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
         ->getForm();
 
         $form->handleRequest($request);
@@ -120,9 +143,10 @@ class BookController extends AbstractController
             return $this->redirectToRoute("BookRead"); //It's the name of the route, not the web path
         }
 
-        return $this->render('Book/Delete.html.twig', [
+        return $this->render('Delete.html.twig', [
             'book' => $book,
-            "form" => $form
+            "form" => $form,
+            'type' => 'book'
         ]);
     }
 }

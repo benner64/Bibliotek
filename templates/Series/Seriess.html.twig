@@ -1,11 +1,30 @@
 {% extends "base.html.twig" %}
 
 {% block Content %}
-    <h1>Series</h1>
-    <a href="/Series/Create">New Series</a>
-    <ul>
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Series</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <a href="/Series/Create" class="btn btn-success">New Series</a>
+        </div>
+    </div>
+
+    <div class="row m-2">
         {% for series in seriess %}
-            <li><a href="/Series/Update/{{ series.id|e }}">{{ series.name|e }}</a></li>
+            <div class="col-3 text-center px-3 mb-4">
+                <a href="/Series/Update/{{ series.id|e }}">
+                    <div class="h-100 bg-light shadow d-flex flex-column p-1">
+                        {{ series.name|e }}
+                        {#<img class="mx-auto img-fluid img-thumbnail" src="{{ asset('uploads/covers/' ~ book.CoverImageFile)|e }}" width=200>#}
+                    </div>
+                </a>
+            </div>
         {% endfor %}
-    </ul>
+    </div>
+
 {% endblock %}

@@ -1,8 +1,26 @@
 {% extends "base.html.twig" %}
 
 {% block Content %}
-    {{ form(form) }}
-    {% if delete %}
-        <a/ href="/Author/Delete/{{author.id}}" >Delete</a>
-    {% endif %}
+
+    <div class="row">
+        <div class="col-12">
+            <h1>{{ delete ? "Update Author" : "New Author" }}</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            {#% if book is defined %}
+                <img src="{{ asset('uploads/covers/' ~ book.CoverImageFile) }}" width=200 class="img-fluid">
+            {% endif %#}
+        </div>
+        <div class="col-4">
+            {{ form(form) }}
+
+            {% if delete %}
+                <a/ href="/Author/Delete/{{author.id}}" class="btn btn-danger" >Delete</a>
+            {% endif %}
+        </div>
+    </div>
+
 {% endblock %}

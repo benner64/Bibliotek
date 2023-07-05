@@ -20,7 +20,7 @@ class GenreController extends AbstractController
         $form = $this->createFormBuilder($genre)
         ->add('name', TextType::class)
         ->add('colour', ColorType::class)
-        ->add('save', SubmitType::class, ['label' => 'Update Author', 'attr' => ['class' => 'MyClass']])
+        ->add('save', SubmitType::class, ['label' => 'Update Genre', 'attr' => ['class' => 'btn-success']])
         ->getForm();
 
         $form->handleRequest($request);
@@ -51,7 +51,7 @@ class GenreController extends AbstractController
         $form = $this->createFormBuilder($genre)
         ->add('name', TextType::class)
         ->add('colour', ColorType::class)
-        ->add('save', SubmitType::class, ['label' => 'Create Author', 'attr' => ['class' => 'MyClass']])
+        ->add('save', SubmitType::class, ['label' => 'Create Genre', 'attr' => ['class' => 'btn-success']])
         ->getForm();
 
         //$form = $this->createForm(AuthorType::class, $author);
@@ -91,8 +91,8 @@ class GenreController extends AbstractController
     public function DeleteGenres(EntityManagerInterface $entityManager, Genre $genre, Request $request):Response
     {
         $form = $this->createFormBuilder($genre)
-        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()"]])
-        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'MyClass']])
+        ->add("button", ButtonType::class, ['label' => "Back", "attr" => ['onClick' => "history.back()", 'class' => 'btn-waring']])
+        ->add('save', SubmitType::class, ['label' => 'Delete', 'attr' => ['class' => 'btn-danger']])
         ->getForm();
 
         $form->handleRequest($request);
@@ -107,7 +107,8 @@ class GenreController extends AbstractController
 
         return $this->render('Genre/Delete.html.twig', [
             'genre' => $genre,
-            "form" => $form
+            "form" => $form,
+            'type' => 'genre'
         ]);
     }
 }
