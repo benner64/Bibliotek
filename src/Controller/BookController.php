@@ -13,8 +13,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
+use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
+use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+
 class BookController extends AbstractController
 {
+
+    private Serializer $serializer;
+
+    function __construct() {
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer($classMetadataFactory)];
+
+        $this->serializer = new Serializer($normalizers, $encoders);
+    }
+
+
     #[Route('/Book/Update/{id}', name: 'BookUpdate')]
     public function UpdateBook(SluggerInterface $slugger, EntityManagerInterface $entityManager, Book $book, Request $request):Response
     {
@@ -123,6 +144,15 @@ class BookController extends AbstractController
         return $this->render('Book/Books.html.twig', [
             'books' => $books
         ]);
+    }
+
+    #[Route('/Book/Search/{searchText}', name: 'BookSearch')]
+    public function SearchBooksInLibrary(EntityManagerInterface $entityManager, String $searchText):Response
+    {
+        $repository = $entityManager->getRepository(Book::class);
+        $books = $repository->GetSearchedBooksInLibrary($searchText);
+
+        return new Response($this->serializer->serialize($books, 'json', ['groups' => 'search']));
     }
 
     #[Route('/Book/Delete/{id}', name: 'BookDelete')]

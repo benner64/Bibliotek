@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
@@ -72,6 +73,15 @@ class BookType extends AbstractType
             "widget" => "single_text",
             "required" => false
 
+        ])
+        ->add('inLibrary', ChoiceType::class, [
+            'choices' => [
+                'yes' => true,
+                'no' => false   
+            ],
+            'expanded' => true,
+            'multiple' => false,
+            'required' => true
         ])
         ->add('save', SubmitType::class, ['label' => ($options['CreateOrUpdate'] ? 'Create' : 'Update') . " Book", 'attr' => ['class' => 'btn-success']]);
     }

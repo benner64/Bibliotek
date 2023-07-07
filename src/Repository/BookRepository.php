@@ -48,6 +48,28 @@ class BookRepository extends ServiceEntityRepository
         ;
     }
 
+    public function GetAllBooksOrderedInLibrary()
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.InLibrary = TRUE')
+            ->orderBy('b.Name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function GetSearchedBooksInLibrary(String $searchText)
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('LOWER(b.Name) LIKE :searchText')
+            ->andWhere('b.InLibrary = TRUE')
+            ->setParameter('searchText', '%' . strtolower($searchText) . '%')
+            ->orderBy('b.Name', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Book[] Returns an array of Book objects
 //     */

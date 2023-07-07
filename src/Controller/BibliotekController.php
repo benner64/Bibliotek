@@ -17,9 +17,13 @@ use Symfony\Component\HttpFoundation\Request;
 class BibliotekController extends AbstractController
 {
     #[Route('/', name: 'Bibliotek')]
-    public function number(): Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
+        $repository = $entityManager->getRepository(Book::class);
+        $books = $repository->GetAllBooksOrderedInLibrary();
+
         return $this->render('Bibliotek/bibliotek.html.twig', [
+            'books' => $books
         ]);
     }
 }

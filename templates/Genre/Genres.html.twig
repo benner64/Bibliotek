@@ -17,7 +17,7 @@
     <div class="row m-2">
         {% for genre in genres %}
             <div class="col-3 text-center px-3 mb-4">
-                <a href="/Genre/Update/{{ genre.id|e }}">
+                <a href="/Genre/Update/{{ genre.id|e }}" class="text-reset text-decoration-none">
                     <div class="h-100 bg-light shadow d-flex flex-column p-1">
                         {{ genre.name|e }}
                         {#<img class="mx-auto img-fluid img-thumbnail" src="{{ asset('uploads/covers/' ~ book.CoverImageFile)|e }}" width=200>#}

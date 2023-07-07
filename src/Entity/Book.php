@@ -7,15 +7,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
 {
+    #[Groups(['search'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['search'])]
     #[ORM\Column(length: 255)]
     private ?string $Name = null;
 
@@ -42,6 +45,9 @@ class Book
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $CoverImageFile = null;
+
+    #[ORM\Column(options: ['default' => false])]
+    private ?bool $InLibrary = null;
 
     public function __construct()
     {
@@ -127,33 +133,6 @@ class Book
         return $this;
     }
 
-    /**
-     * @return Collection<int, Genre>
-     */
-    // public function getGenres(): Collection
-    // {
-    //     return $this->genres;
-    // }
-
-    // public function addGenre(Genre $genre): static
-    // {
-    //     if (!$this->genres->contains($genre)) {
-    //         $this->genres->add($genre);
-    //         $genre->addBook($this);
-    //     }
-
-    //     return $this;
-    // }
-
-    // public function removeGenre(Genre $genre): static
-    // {
-    //     if ($this->genres->removeElement($genre)) {
-    //         $genre->removeBook($this);
-    //     }
-
-    //     return $this;
-    // }
-
     public function getSeries(): ?Series
     {
         return $this->series;
@@ -198,6 +177,18 @@ class Book
     public function setCoverImageFile(?string $CoverImageFile): static
     {
         $this->CoverImageFile = $CoverImageFile;
+
+        return $this;
+    }
+
+    public function isInLibrary(): ?bool
+    {
+        return $this->InLibrary;
+    }
+
+    public function setInLibrary(bool $InLibrary): static
+    {
+        $this->InLibrary = $InLibrary;
 
         return $this;
     }

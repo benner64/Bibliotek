@@ -1,5 +1,38 @@
 {% extends "base.html.twig" %}
 
 {% block Content %}
-    <p>This is the library of books</p>
+    
+    <div class="row">
+        <div class="col-11 offset-1">
+        <h1>Book in The Library</h1>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-10 offset-1 container-fluid border">
+            <div class="row mt-2">
+
+                <div class='col-12 mb-3'>
+                    <input class="form-control form-control-lg" type="text" placeholder='Search for a Book' id='bookSearcher' list='recommendations'>
+                    <datalist id='recommendations'>
+                    </datalist>
+                </div>
+
+                {% for book in books %}
+                    <div class="col-3 text-center px-3 mb-4">
+                        <a href="/Book/Update/{{ book.id|e }}" class="text-reset text-decoration-none">
+                            <div class="h-100 bg-light shadow d-flex flex-column p-1">
+                                {{ book.name|e }}
+                                <img class="mx-auto img-fluid img-thumbnail" src="{{ asset('uploads/covers/' ~ book.CoverImageFile)|e }}" width=200>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src='/js/Test.js' defer></script>
 {% endblock %}
